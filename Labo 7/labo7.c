@@ -1,45 +1,15 @@
 #include <stdio.h>
-int main(void)
+int main (void)
 {
-    unsigned long num=0,N;
-    int dec, v;
-    scanf("%lu", &N);
-    dec = N;
-     v = 128;
-     for(int i = 1; i <= 8; i++)
-     {
-             if(dec >= v)
-             {
-                    printf("1");
-                    dec -= v;
-             }
-             else
-                 printf("0");
-
-             v /= 2;
-     }
-
-    while(N)
-    {
-        num^=(N&3);
+    unsigned long num=0,N;  // unsigned long num, N; num = 0;
+    scanf("%lu", &N);       // прочитать с клавиатуры unsigned long и записать в N
+    while(N)                // while (N != 0)
+    {   // кучка побитовых операций:
+        num^=(N&3);         // num = num^(N&3);
         N=N>>2;
         num=num<<2;
     }
     num=num>>2;
-    printf("\n%lu\n", num);
-        dec = num;
-     v = 128;
-     for(int i = 1; i <= 8; i++)
-     {
-             if(dec >= v)
-             {
-                    printf("1");
-                    dec -= v;
-             }
-             else
-                 printf("0");
-
-             v /= 2;
-     }
-    return 0;
+    printf("%lu\n", num);   // вывести на экран получившееся число num
+    return 0;               // конец программы
 }
