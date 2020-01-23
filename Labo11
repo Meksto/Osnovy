@@ -1,0 +1,89 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <Windows.h>
+#include <string.h>
+#define MAXLEN 1000
+#define NOT_VAR 0
+#define VAR 1
+enum ConsoleColor {
+	Black = 0,
+	Blue = 1,
+	Green = 2,
+	Cyan = 3,
+	Red = 4,
+	Magenta = 5,
+	Brown = 6,
+	LightGray = 7,
+	DarkGray = 8,
+	LightBlue = 9,
+	LightGreen = 10,
+	LightCyan = 11,
+	LightRed = 12,
+	LightMagenta = 13,
+	Yellow = 14,
+	White = 15
+};
+void main()
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	FILE* f;
+	char line[MAXLEN];
+	int flag = VAR;
+	int func = NOT_VAR;
+	char *ptr; //указатель на строчку
+	int d = 0;
+	int i = 0;
+
+	f = fopen("D:\\test1.txt", "rt");
+	if (f == NULL)
+	return; //ошибка при чтении файла
+	while (!feof(f))
+	{
+
+
+		ptr = fgets(line, MAXLEN, f);
+		if (ptr == NULL)
+		break;
+		d = strlen(line);
+		i = 0;
+		flag = VAR;
+		//func = VAR;
+		//printf("\nHello%d",*ptr);
+		while (*ptr != 0)
+		{
+			if ( *ptr == '#' || *ptr == '(' )
+				flag = NOT_VAR;
+
+			if (*ptr == '{')
+			{
+				flag = NOT_VAR;
+				func = VAR;
+			}
+
+			if (*ptr == '}')
+			{
+				flag = NOT_VAR;
+				func = NOT_VAR;
+			}
+
+
+
+			if (flag == NOT_VAR || func == VAR )
+			{
+			SetConsoleTextAttribute(hConsole, (WORD)((Black << 4) | White));
+				printf("%s", line);
+				break;
+			}
+			if (line[i] == d && func == NOT_VAR)
+			{
+			SetConsoleTextAttribute(hConsole, (WORD)((Black << 4) | Green));
+				printf("%s", line);
+			}
+
+			SetConsoleTextAttribute(hConsole, (WORD)((Black << 4) | White));
+			ptr++;
+			i++;
+		}
+	}
+	printf("\n");
+}
